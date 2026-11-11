@@ -1,6 +1,6 @@
 # Cybersecurity Bootcamp
 
-A structured collection of programming assignments, practical exercises, and learning projects completed during an intensive Cybersecurity Bootcamp.
+A structured collection of programming assignments, practical exercises, and learning projects completed during a Cybersecurity Bootcamp.
 
 ## Repository Structure
 
@@ -8,7 +8,13 @@ A structured collection of programming assignments, practical exercises, and lea
 Bootcamp/
 └── Programming_Languages/
     ├── C_Assignments/
+    │   ├── hex_viewer.c
+    │   ├── log_parser.c
+    │   └── password_checker.c
+    │
     ├── Python_Assignments/
+    │   └── port_scanner.py
+    │
     ├── PHP_Assignments/
     └── JavaScript_Assignments/
 ```
