@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DOM-XSS Security Demo</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .unsafe {
+            border-left: 5px solid #d32f2f;
+            padding: 15px;
+            background: #ffebee;
+            min-height: 40px;
+        }
+
+        .safe {
+            border-left: 5px solid #388e3c;
+            padding: 15px;
+            background: #e8f5e9;
+            min-height: 40px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .warning {
+            color: #b00020;
+            font-weight: bold;
+        }
+
+        .success {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        code {
+            background: #eee;
+            padding: 3px 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>DOM-XSS Security Demo</h1>
+
+    <div class="box">
+
+        <h2>User Input</h2>
+
+        <input
+            type="text"
+            id="userInput"
+            placeholder="Enter text or an XSS payload"
+        >
+
+        <button id="unsafeButton">
+            Unsafe Display
+        </button>
+
+        <button id="safeButton">
+            Safe Display
+        </button>
+
+        <p>
+            Test Payload:
+            <code>&lt;img src=x onerror=alert(1)&gt;</code>
+        </p>
+
+    </div>
+
+    <div class="box">
+
+        <h2>Unsafe Output</h2>
+
+        <p class="warning">
+            ⚠ Uses innerHTML. User input is interpreted as HTML.
+        </p>
+
+        <div id="unsafeOutput" class="unsafe">
+            No input displayed yet.
+        </div>
+
+    </div>
+
+    <div class="box">
+
+        <h2>Safe Output</h2>
+
+        <p class="success">
+            ✓ Uses textContent. User input is treated as plain text.
+        </p>
+
+        <div id="safeOutput" class="safe">
+            No input displayed yet.
+        </div>
+
+    </div>
+
+    <div class="box">
+
+        <h2>Security Explanation</h2>
+
+        <p>
+            <strong>innerHTML:</strong>
+            interprets the supplied value as HTML and may allow
+            attacker-controlled markup or event handlers to execute.
+        </p>
+
+        <p>
+            <strong>textContent:</strong>
+            inserts the supplied value as plain text, preventing the
+            browser from interpreting HTML tags or JavaScript event handlers.
+        </p>
+
+    </div>
+
+    <script>
+
+        const userInput = document.getElementById("userInput");
+        const unsafeButton = document.getElementById("unsafeButton");
+        const safeButton = document.getElementById("safeButton");
+
+        const unsafeOutput = document.getElementById("unsafeOutput");
+        const safeOutput = document.getElementById("safeOutput");
+
+        // Intentionally vulnerable demonstration
+        unsafeButton.addEventListener("click", function () {
+
+            const inputValue = userInput.value;
+
+            unsafeOutput.innerHTML = inputValue;
+        });
+
+        // Secure implementation
+        safeButton.addEventListener("click", function () {
+
+            const inputValue = userInput.value;
+
+            safeOutput.textContent = inputValue;
+        });
+
+    </script>
+
+</body>
+</html>
